@@ -78,13 +78,8 @@
             179
          </button>
       </div>
-
-      <form
-         id="bookingForm"
-         method="POST"
-         action="https://filmonestop.maketicket.co.kr/booking"
-         target="_blank"
-      >
+      
+<form id="bookingForm" method="POST" action="https://filmonestop.maketicket.co.kr/booking" target="popupWin" onsubmit="return openPopupAndSubmit();">
          <label
             >sdCode
             <input type="text" name="sdCode" value="002"  readonly/>
@@ -188,6 +183,19 @@
         //        `선택됨: ${p.sdCode} | ${p.perfMainNm} | ${p.sdDate} ${p.sdTime} | ${p.venueNm} ${p.hallNm}`;
          }
 
+         // 1520x860 크기의 새 창을 열고 그 창으로 폼을 제출
+function openPopupAndSubmit() {
+  const w = 1520, h = 860;
+  const left = (window.screen.width - w) / 2;
+  const top = (window.screen.height - h) / 2;
+  window.open(
+    "",
+    "popupWin",
+    `width=${w},height=${h},left=${left},top=${top},resizable=yes,scrollbars=yes`
+  );
+  return true; // 폼 기본 제출 진행 (target="popupWin" 창으로 전송됨)
+}
+         
          setPreset(0);
          // User-Agent 기준 모바일 여부 판단 후 action 도메인 전환
 (function setActionByDevice() {
