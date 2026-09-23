@@ -189,6 +189,14 @@
          }
 
          setPreset(0)
+         // User-Agent 기준 모바일 여부 판단 후 action 도메인 전환
+(function setActionByDevice() {
+  const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const form = document.getElementById("bookingForm");
+  form.action = isMobile
+    ? "https://mfilmonestop.maketicket.co.kr/booking"
+    : "https://filmonestop.maketicket.co.kr/booking";
+})();
       </script>
    </body>
 </html>
