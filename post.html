@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko">
+   <head>
+      <meta charset="UTF-8" />
+      <title>POST 전송기</title>
+      <style>
+               body {
+              font-family: sans-serif;
+              max-width: 480px;
+              margin: 40px auto;
+              padding: 0 16px;
+         }
+          h2 {
+              font-size: 18px;
+         }
+          label {
+              display: block;
+              margin-top: 10px;
+              font-size: 13px;
+              color: #333;
+         }
+          input[type=text] {
+              width: 100%;
+              padding: 8px;
+              box-sizing: border-box;
+              font-size: 14px;
+              margin-top: 2px;
+         }
+          button {
+              margin-top: 20px;
+              width: 100%;
+              padding: 12px;
+              font-size: 15px;
+              cursor: pointer;
+              background: #1a73e8;
+              color: #fff;
+              border: none;
+              border-radius: 4px;
+         }
+          button:hover {
+              background: #1558b0;
+         }
+          .presets {
+              display: flex;
+              gap: 8px;
+              margin-top: 16px;
+         }
+          .preset-btn {
+              margin-top: 0;
+              flex: 1;
+              padding: 10px 4px;
+              font-size: 14px;
+              background: #f1f3f4;
+              color: #202124;
+         }
+          .preset-btn:hover {
+              background: #e2e4e6;
+         }
+          .preset-info {
+            font-size: 12px;
+            color: #666;
+            margin-top: 8px;
+            min-height: 16px;
+          }
+      </style>
+   </head>
+   <body>
+      <h2>POST 전송</h2>
+
+      <div class="presets">
+         <button type="button" class="preset-btn" onclick="setPreset(0)">
+            001
+         </button>
+         <button type="button" class="preset-btn" onclick="setPreset(1)">
+            072
+         </button>
+         <button type="button" class="preset-btn" onclick="setPreset(2)">
+            179
+         </button>
+      </div>
+
+      <form
+         id="bookingForm"
+         method="POST"
+         action="https://filmonestop.maketicket.co.kr/booking"
+         target="_blank"
+      >
+         <label
+            >sdCode
+            <input type="text" name="sdCode" value="002"  readonly/>
+         </label>
+         <label
+            >prodSeq
+            <input type="text" name="prodSeq" value="3000001985" readonly/>
+         </label>
+         <!-- <label>chnlCd -->
+         <input type="hidden" name="chnlCd" value="WEB" readonly />
+         <!-- </label> -->
+         <label
+            >sdSeq
+            <input type="text" name="sdSeq" value="2" readonly/>
+         </label>
+         <!-- <label>prodTyCd -->
+         <input type="hidden" name="prodTyCd" value="NORMAL" readonly />
+         <!-- </label> -->
+         <!-- <label>rtnUrl -->
+         <input
+            type="hidden"
+            name="rtnUrl"
+            value="https://biff.maketicket.co.kr/BIFF/ko/resMain?sdCode=SD_CODE_PLACEHOLDER"
+            readonly
+         />
+         <!-- </label> -->
+         <!-- <label>saleTycd -->
+         <input type="hidden" name="saleTycd" value="SALE_NORMAL" readonly />
+         <!-- </label> -->
+         <!-- <label>saleCondNo -->
+         <input type="hidden" name="saleCondNo" value="1" />
+         <!-- </label> -->
+         <!-- <label>langCd -->
+         <input type="hidden" name="langCd" value="ko" readonly />
+         <!-- </label> -->
+         <!-- <label>partnerId -->
+         <input type="hidden" name="partnerId" value="BIFF" readonly />
+         <!-- </label> -->
+         <!-- <label>gate_id -->
+         <input type="hidden" name="gate_id" value="" readonly />
+         <!-- </label> -->
+         <!-- <label>gate_token -->
+         <input type="hidden" name="gate_token" value="" readonly />
+         <!-- </label> -->
+
+         <button type="submit">새 창으로 예매 요청 보내기</button>
+      </form>
+      <div class="preset-info" id="presetInfo"></div>
+
+      <script>
+         const presets = [
+            {
+               prodSeq: 3000001762,
+               prodTycd: "NORMAL",
+               sdSeq: 1,
+               sdCode: "001",
+               perfMainNm: "[개막식 & 개막작] 낮과 밤은 서로에게",
+               sdDate: "2026.10.06 (화)",
+               sdTime: "18:00",
+               venueNm: "영화의전당",
+               hallNm: "루프씨어터",
+            },
+            {
+               prodSeq: 3000001859,
+               prodTycd: "NORMAL",
+               sdSeq: 1,
+               sdCode: "072",
+               perfMainNm: "면도",
+               sdDate: "2026.10.08 (목)",
+               sdTime: "13:10",
+               venueNm: "영화의전당",
+               hallNm: "하늘연극장",
+            },
+            {
+               prodSeq: 3000001859,
+               prodTycd: "NORMAL",
+               sdSeq: 2,
+               sdCode: "179",
+               perfMainNm: "면도",
+               sdDate: "2026.10.09 (금)",
+               sdTime: "09:00",
+               venueNm: "영화의전당",
+               hallNm: "시네마테크",
+            },
+         ];
+
+         function setPreset(idx) {
+            const p = presets[idx];
+            const form = document.getElementById("bookingForm");
+            form.prodSeq.value = p.prodSeq;
+            form.prodTyCd.value = p.prodTycd;
+            form.sdSeq.value = p.sdSeq;
+            form.sdCode.value = p.sdCode;
+
+            // rtnUrl 안의 sdCode 값 교체
+            const url = new URL(form.rtnUrl.value);
+            url.searchParams.set("sdCode", p.sdCode);
+            form.rtnUrl.value = url.toString();
+
+        //     document.getElementById("presetInfo").textContent =
+        //        `선택됨: ${p.sdCode} | ${p.perfMainNm} | ${p.sdDate} ${p.sdTime} | ${p.venueNm} ${p.hallNm}`;
+         }
+
+         setPreset(0)
+      </script>
+   </body>
+</html>
